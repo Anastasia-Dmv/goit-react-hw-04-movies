@@ -1,13 +1,15 @@
-import Axios from 'axios';
-//import routes from '../routes';
+import Axios from "axios";
+import routes from "../routes";
+import { NavLink, Route, Switch } from "react-router-dom";
+import React, { Component } from "react";
+import CastView from "./CastView";
 
-import React, { Component } from 'react';
 //import MovieDetailsPage from '../components/movieDetailsPage/MovieDetailsPage';
 
 export default class MovieDetailesView extends Component {
   state = {
-    id: Number(this.props.match.params),
-    movieInfo: {},
+    id: this.props.match.params.movieId.slice(1),
+    movie: [],
     //movie: [],
     // title: null,
     // userScore: null,
@@ -21,39 +23,85 @@ export default class MovieDetailesView extends Component {
     //const { movieId } = this.props.match.params;
     //console.log('movieId', Number(movieId.slice(1)));
     const response = await Axios.get(
-      //`https://api.themoviedb.org/3/movie/550?api_key=67b139b801704dedc647c4541346877d`,
-      `https://api.themoviedb.org/3/movie/${this.state.id}?api_key=67b139b801704dedc647c4541346877d&language=en-US`,
-      //`https://api.themoviedb.org/3/movie/${movieId}?api_key=<<67b139b801704dedc647c4541346877>>d&language=en-US`,
+      `https://api.themoviedb.org/3/movie/${this.state.id}?api_key=67b139b801704dedc647c4541346877d&language=en-US`
     );
-    this.setState({ movieInfo: { ...response.data } });
+    this.setState({ movie: { ...response.data } });
     //this.setState({ movie: response.data });
   }
   render() {
-    const { movieInfo } = this.state;
+    const { movie, id } = this.state;
+    const { location } = this.props;
     return (
-      <div>
-        <div className="card">
-          <div className="moviePreview">
-            <img
-              src={`https://image.tmdb.org/t/p/original/${movieInfo.backdrop_path}`}
-              alt={movieInfo.title}
-              width="150"
-            />
+      <>
+        <div>
+          <div className="card">
+            <div className="moviePreview">
+              <img
+                src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}
+                alt={movie.title}
+                width="150"
+              />
+            </div>
+            <div className="card-body">
+              <h2 className="card-title">
+                {`${movie.title} (${movie.release_date})`}
+              </h2>
+              <p>User score: {movie.vote_average * 10}%</p>
+
+              <h3>Overview</h3>
+              <p>{movie.overview}</p>
+
+              {movie.genres && <h3>Genres</h3>}
+              {movie.genres && (
+                <ul>
+                  {movie.genres.map((genre) => (
+                    <li key={genre.id}>{genre.name}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
-          <div className="card-body">
-            <h5 className="card-title">{movieInfo.title}</h5>
-            <p>{movieInfo.overview}</p>
-          </div>
-        </div>
-        {/* <MovieDetailsPage
+          {/* <MovieDetailsPage
           imgUrl={movie.poster_path}
           title={movie.title}
           overview={movie.overview}
         /> */}
-        {/* <img src={imgUrl} alt={title} />
+          {/* <img src={imgUrl} alt={title} />
         <h2>{title}</h2>
         <p>{overview}</p> */}
-      </div>
+        </div>
+
+        <hr />
+        <p>Additional information</p>
+        <ul>
+          <li>
+            <NavLink
+              to={{
+                pathname: `${this.props.match.url}${routes.cast}`,
+                state: { from: location },
+                params: id,
+              }}
+            >
+              Cast
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={`${this.props.match.url}${routes.reviews}`}>
+              Reviews
+            </NavLink>
+          </li>
+        </ul>
+
+        <Switch>
+          <Route path="/movies/:id/cast" component={CastView} />
+          {/* <Route path="/movies/:id/reviews" component={Review} /> */}
+        </Switch>
+        {/* <Route
+          exact
+          path={`${this.props.match.url}${routes.cast}`}
+          component={CastView}
+        /> */}
+      </>
     );
   }
 }
