@@ -19,9 +19,9 @@ export default class MoviesView extends Component {
 
   render() {
     return (
-      <div>
+      <section className="moviesList-section">
         <MoviesList movies={this.state.movies} />
-      </div>
+      </section>
     );
   }
 }

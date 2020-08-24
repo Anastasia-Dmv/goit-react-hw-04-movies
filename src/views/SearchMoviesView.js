@@ -52,14 +52,17 @@ export default class SearchMoviesView extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
+      <section className="searchForm">
+        <form className="form" onSubmit={this.handleSubmit}>
           <input
+            className="SearchFormInput"
             type="text"
             value={this.state.value}
             onChange={this.handleChange}
           />
-          <button type="submit">Search</button>
+          <button type="submit" className=" search movieDetails__button">
+            Search
+          </button>
         </form>
         {this.state.matchedMovies && (
           <ul>
@@ -78,7 +81,7 @@ export default class SearchMoviesView extends Component {
             ))}
           </ul>
         )}
-      </div>
+      </section>
     );
   }
 }
