@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+// import Axios from 'axios';
+import Cast from '../components/cast/Cast';
+import { request } from '../components/services';
 
 export default class CastView extends Component {
   state = {
@@ -8,31 +10,19 @@ export default class CastView extends Component {
   };
 
   async componentDidMount() {
-    console.log('YEESSSSS');
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${this.state.id}/credits?api_key=67b139b801704dedc647c4541346877d`,
-    );
+    const response = await request(this.state.id);
+
+    // const response = await Axios.get(
+    //   `https://api.themoviedb.org/3/movie/${this.state.id}/credits?api_key=67b139b801704dedc647c4541346877d`,
+    // );
     this.setState({ movieCast: [...response.data.cast] });
     console.log('response', this.state.movieCast);
   }
   render() {
+    const { movieCast } = this.state;
     return (
       <>
-        {this.state.movieCast && (
-          <ul>
-            {this.state.movieCast.map(actor => (
-              <li className="movieItem" key={actor.cast_id}>
-                {actor.name}
-                <img
-                  width="100"
-                  alt={actor.name}
-                  src={`https://image.tmdb.org/t/p/original${actor.profile_path}`}
-                />
-                <p>Character: {actor.character}</p>
-              </li>
-            ))}
-          </ul>
-        )}
+        <Cast movieCast={movieCast} />
       </>
     );
   }

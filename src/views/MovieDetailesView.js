@@ -1,9 +1,10 @@
 import Axios from 'axios';
-import routes from '../routes';
+import routes from '../utils/routes';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import React, { Component } from 'react';
 import CastView from './CastView';
 import ReviewsView from './ReviewsView';
+import MovieDetailsPage from '../components/movieDetailsPage/MovieDetailsPage';
 
 export default class MovieDetailesView extends Component {
   state = {
@@ -29,45 +30,7 @@ export default class MovieDetailesView extends Component {
     const { location } = this.props;
     return (
       <>
-        <section className="movieDetails">
-          <button
-            type="button"
-            onClick={this.changeLocation}
-            className="movieDetails__button"
-          >
-            Go back
-          </button>
-          <hr />
-          <div className="card">
-            <div className="moviePreview">
-              <img
-                src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
-                alt={movie.title}
-                width="250"
-              />
-            </div>
-            <div className="card-body">
-              <h3 className="card-title">
-                {`${movie.title} (${movie.release_date})`}
-              </h3>
-              <p>User score: {movie.vote_average * 10}%</p>
-
-              <h4>Overview</h4>
-              <p>{movie.overview}</p>
-
-              {movie.genres && <h4>Genres</h4>}
-              {movie.genres && (
-                <ul className="moviesList">
-                  {movie.genres.map(genre => (
-                    <li className="moviesListItem" key={genre.id}>
-                      {genre.name}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        </section>
+        <MovieDetailsPage movie={movie} changeLocation={this.changeLocation} />
 
         <hr />
         <section className="additionalInfo">
@@ -101,11 +64,6 @@ export default class MovieDetailesView extends Component {
             <Route exact path="/movies/:id/cast" component={CastView} />
             <Route exact path="/movies/:id/reviews" component={ReviewsView} />
           </Switch>
-          {/* <Route
-          exact
-          path={`${this.props.match.url}${routes.cast}`}
-          component={CastView}
-        /> */}
         </section>
       </>
     );

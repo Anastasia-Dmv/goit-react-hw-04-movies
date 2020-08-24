@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import Axios from "axios";
+import React, { Component } from 'react';
+import Axios from 'axios';
+import Reviews from '../components/reviews/Reviews';
 
 export default class ReviewsView extends Component {
   state = {
@@ -9,24 +10,16 @@ export default class ReviewsView extends Component {
 
   async componentDidMount() {
     const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${this.state.id}/reviews?api_key=67b139b801704dedc647c4541346877d&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/${this.state.id}/reviews?api_key=67b139b801704dedc647c4541346877d&language=en-US&page=1`,
     );
     this.setState({ reviews: [...response.data.results] });
-    console.log("this.state.reviews", response.data.results);
+    console.log('this.state.reviews', response.data.results);
   }
   render() {
+    const { reviews } = this.state;
     return (
       <>
-        {this.state.reviews && (
-          <ul>
-            {this.state.reviews.map((review) => (
-              <li key={review.author}>
-                <h3>{review.author}</h3>
-                <p>{review.content}</p>
-              </li>
-            ))}
-          </ul>
-        )}
+        <Reviews reviews={reviews} />
       </>
     );
   }

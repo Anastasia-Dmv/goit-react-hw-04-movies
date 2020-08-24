@@ -49,6 +49,7 @@ img {
   margin: 0 auto;
 }
 .movieDetails__button {
+  outline: none;
   margin: 5px;
   padding: 4px 16px;
   border-radius: 2px;
@@ -73,6 +74,7 @@ img {
 .movieDetails__button:hover,
 .BmovieDetails__button:focus {
   background-color: #303f9f;
+  outline: none;
 }
 .card {
   display: flex;
