@@ -1,9 +1,9 @@
-import Axios from "axios";
-import routes from "../routes";
-import { NavLink, Route, Switch } from "react-router-dom";
-import React, { Component } from "react";
-import CastView from "./CastView";
-import ReviewsView from "./ReviewsView";
+import Axios from 'axios';
+import routes from '../routes';
+import { NavLink, Route, Switch } from 'react-router-dom';
+import React, { Component } from 'react';
+import CastView from './CastView';
+import ReviewsView from './ReviewsView';
 
 //import MovieDetailsPage from '../components/movieDetailsPage/MovieDetailsPage';
 
@@ -24,17 +24,28 @@ export default class MovieDetailesView extends Component {
     //const { movieId } = this.props.match.params;
     //console.log('movieId', Number(movieId.slice(1)));
     const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${this.state.id}?api_key=67b139b801704dedc647c4541346877d&language=en-US`
+      `https://api.themoviedb.org/3/movie/${this.state.id}?api_key=67b139b801704dedc647c4541346877d&language=en-US`,
     );
     this.setState({ movie: { ...response.data } });
     //this.setState({ movie: response.data });
   }
+
+  changeLocation = () => {
+    if (this.props.location.state && this.props.location.state.from) {
+      return this.props.history.push(this.props.location.state.from);
+    }
+    this.props.history.push(routes.movies);
+  };
   render() {
     const { movie, id } = this.state;
     const { location } = this.props;
     return (
       <>
         <div>
+          <button type="button" onClick={this.changeLocation}>
+            Go back
+          </button>
+          <hr />
           <div className="card">
             <div className="moviePreview">
               <img
@@ -55,7 +66,7 @@ export default class MovieDetailesView extends Component {
               {movie.genres && <h3>Genres</h3>}
               {movie.genres && (
                 <ul>
-                  {movie.genres.map((genre) => (
+                  {movie.genres.map(genre => (
                     <li key={genre.id}>{genre.name}</li>
                   ))}
                 </ul>
