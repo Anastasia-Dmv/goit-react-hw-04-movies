@@ -3,6 +3,7 @@ import routes from "../routes";
 import { NavLink, Route, Switch } from "react-router-dom";
 import React, { Component } from "react";
 import CastView from "./CastView";
+import ReviewsView from "./ReviewsView";
 
 //import MovieDetailsPage from '../components/movieDetailsPage/MovieDetailsPage';
 
@@ -86,15 +87,21 @@ export default class MovieDetailesView extends Component {
             </NavLink>
           </li>
           <li>
-            <NavLink to={`${this.props.match.url}${routes.reviews}`}>
+            <NavLink
+              to={{
+                pathname: `${this.props.match.url}${routes.reviews}`,
+                state: { from: location },
+                params: id,
+              }}
+            >
               Reviews
             </NavLink>
           </li>
         </ul>
 
         <Switch>
-          <Route path="/movies/:id/cast" component={CastView} />
-          {/* <Route path="/movies/:id/reviews" component={Review} /> */}
+          <Route exact path="/movies/:id/cast" component={CastView} />
+          <Route exact path="/movies/:id/reviews" component={ReviewsView} />
         </Switch>
         {/* <Route
           exact
