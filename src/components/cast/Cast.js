@@ -13,7 +13,11 @@ export default class Cast extends Component {
                 <img
                   width="100"
                   alt={actor.name}
-                  src={`https://image.tmdb.org/t/p/original${actor.profile_path}`}
+                  src={
+                    actor.profile_path
+                      ? `https://image.tmdb.org/t/p/original${actor.profile_path}`
+                      : 'https://dummyimage.com/100x150/615e61/fff.jpg&text=No+photo'
+                  }
                 />
                 <p>Character: {actor.character}</p>
               </li>

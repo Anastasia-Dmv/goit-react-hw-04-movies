@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import getQueryParams from '../utils/parseQueryString';
-import Axios from 'axios';
+//import Axios from 'axios';
 import { Link } from 'react-router-dom';
+import { responseSearchQuery } from '../components/services';
 
 export default class SearchMoviesView extends Component {
   state = {
@@ -13,9 +14,11 @@ export default class SearchMoviesView extends Component {
     const { query: params } = getQueryParams(this.props.location.search);
     console.log('params', params);
     if (params) {
-      const response = await Axios.get(
-        ` https://api.themoviedb.org/3/search/movie?&query=${params}&api_key=67b139b801704dedc647c4541346877d&language=en-US&page=1&include_adult=false`,
-      );
+      const response = await responseSearchQuery(params);
+
+      //   const response = await Axios.get(
+      //     ` https://api.themoviedb.org/3/search/movie?&query=${params}&api_key=67b139b801704dedc647c4541346877d&language=en-US&page=1&include_adult=false`,
+      //   );
 
       this.setState({
         matchedMovies: [...response.data.results],
@@ -28,9 +31,10 @@ export default class SearchMoviesView extends Component {
     const { query: prevQuery } = getQueryParams(prevProps.location.search);
     const { query: nextQuery } = getQueryParams(this.props.location.search);
     if (prevQuery !== nextQuery) {
-      const response = await Axios.get(
-        ` https://api.themoviedb.org/3/search/movie?&query=${nextQuery}&api_key=67b139b801704dedc647c4541346877d&language=en-US&page=1&include_adult=false`,
-      );
+      const response = await responseSearchQuery(nextQuery);
+      //   const response = await Axios.get(
+      //     ` https://api.themoviedb.org/3/search/movie?&query=${nextQuery}&api_key=67b139b801704dedc647c4541346877d&language=en-US&page=1&include_adult=false`,
+      //   );
       console.log('params', response);
       this.setState({ matchedMovies: [...response.data.results] });
     }

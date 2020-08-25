@@ -1,10 +1,11 @@
-import Axios from 'axios';
+//import Axios from 'axios';
 import routes from '../utils/routes';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import React, { Component } from 'react';
 import CastView from './CastView';
 import ReviewsView from './ReviewsView';
 import MovieDetailsPage from '../components/movieDetailsPage/MovieDetailsPage';
+import { responseMovieDetails } from '../components/services';
 
 export default class MovieDetailesView extends Component {
   state = {
@@ -13,9 +14,11 @@ export default class MovieDetailesView extends Component {
   };
 
   async componentDidMount() {
-    const response = await Axios.get(
-      `https://api.themoviedb.org/3/movie/${this.state.id}?api_key=67b139b801704dedc647c4541346877d&language=en-US`,
-    );
+    const response = await responseMovieDetails(this.state.id);
+
+    // const response = await Axios.get(
+    //   `https://api.themoviedb.org/3/movie/${this.state.id}?api_key=67b139b801704dedc647c4541346877d&language=en-US`,
+    // );
     this.setState({ movie: { ...response.data } });
   }
 

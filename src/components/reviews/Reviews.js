@@ -5,7 +5,7 @@ export default class Reviews extends Component {
     const { reviews } = this.props;
     return (
       <div>
-        {reviews && (
+        {reviews.length > 0 ? (
           <ul>
             {reviews.map(review => (
               <li key={review.author}>
@@ -14,6 +14,8 @@ export default class Reviews extends Component {
               </li>
             ))}
           </ul>
+        ) : (
+          <h5>We don't have any reviews for this movie</h5>
         )}
       </div>
     );
