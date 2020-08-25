@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 import Axios from 'axios';
-import Reviews from '../components/reviews/Reviews';
+//import Reviews from '../components/reviews/Reviews';
 
+const AsyncReviews = lazy(() =>
+  import('../components/reviews/Reviews' /* webpackChunkName: "reviews"*/),
+);
 export default class ReviewsView extends Component {
   state = {
     id: this.props.match.params.id.slice(1),
@@ -19,7 +22,9 @@ export default class ReviewsView extends Component {
     const { reviews } = this.state;
     return (
       <>
-        <Reviews reviews={reviews} />
+        <Suspense fallback={<h1>Loading...</h1>}>
+          <AsyncReviews reviews={reviews} />
+        </Suspense>
       </>
     );
   }

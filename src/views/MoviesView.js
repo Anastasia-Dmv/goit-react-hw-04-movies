@@ -1,10 +1,14 @@
 import Axios from 'axios';
-import MoviesList from '../components/moviesList/MoviesLIst';
-import React, { Component } from 'react';
+//import MoviesList from '../components/moviesList/MoviesLIst';
+import React, { Component, lazy, Suspense } from 'react';
 
 //const API_KEY = '67b139b801704dedc647c4541346877d';
 //https://api.themoviedb.org/3/movie/550?api_key=67b139b801704dedc647c4541346877d
-
+const AsyncMovieList = lazy(() =>
+  import(
+    '../components/moviesList/MoviesLIst' /* webpackChunkName:"movie-list"*/
+  ),
+);
 export default class MoviesView extends Component {
   state = {
     movies: [],
@@ -20,7 +24,9 @@ export default class MoviesView extends Component {
   render() {
     return (
       <section className="moviesList-section">
-        <MoviesList movies={this.state.movies} />
+        <Suspense fallback={<h1>Loading... movieList</h1>}>
+          <AsyncMovieList movies={this.state.movies} />
+        </Suspense>
       </section>
     );
   }

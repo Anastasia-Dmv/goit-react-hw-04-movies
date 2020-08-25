@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, lazy, Suspense } from 'react';
 // import Axios from 'axios';
-import Cast from '../components/cast/Cast';
+//import Cast from '../components/cast/Cast';
 import { request } from '../components/services';
 
+const AsyncCast = lazy(() =>
+  import('../components/cast/Cast' /* webpackChunkName:"cast" */),
+);
 export default class CastView extends Component {
   state = {
     id: this.props.match.params.id.slice(1),
@@ -22,7 +25,9 @@ export default class CastView extends Component {
     const { movieCast } = this.state;
     return (
       <>
-        <Cast movieCast={movieCast} />
+        <Suspense fallback={<h1>Loading... Cast</h1>}>
+          <AsyncCast movieCast={movieCast} />
+        </Suspense>
       </>
     );
   }
