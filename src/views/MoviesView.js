@@ -15,9 +15,6 @@ export default class MoviesView extends Component {
 
   async componentDidMount() {
     const response = await responseMovieList();
-    // const response = await Axios.get(
-    //   `https://api.themoviedb.org/3/trending/movie/week?api_key=67b139b801704dedc647c4541346877d`,
-    // );
     this.setState({ movies: response.data.results });
   }
 

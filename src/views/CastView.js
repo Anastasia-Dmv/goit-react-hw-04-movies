@@ -1,6 +1,5 @@
 import React, { Component, lazy, Suspense } from 'react';
-// import Axios from 'axios';
-//import Cast from '../components/cast/Cast';
+
 import { request } from '../components/services';
 
 const AsyncCast = lazy(() =>
@@ -15,9 +14,6 @@ export default class CastView extends Component {
   async componentDidMount() {
     const response = await request(this.state.id);
 
-    // const response = await Axios.get(
-    //   `https://api.themoviedb.org/3/movie/${this.state.id}/credits?api_key=67b139b801704dedc647c4541346877d`,
-    // );
     this.setState({ movieCast: [...response.data.cast] });
     console.log('response', this.state.movieCast);
   }

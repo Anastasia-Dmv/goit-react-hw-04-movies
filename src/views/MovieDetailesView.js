@@ -16,9 +16,6 @@ export default class MovieDetailesView extends Component {
   async componentDidMount() {
     const response = await responseMovieDetails(this.state.id);
 
-    // const response = await Axios.get(
-    //   `https://api.themoviedb.org/3/movie/${this.state.id}?api_key=67b139b801704dedc647c4541346877d&language=en-US`,
-    // );
     this.setState({ movie: { ...response.data } });
   }
 
