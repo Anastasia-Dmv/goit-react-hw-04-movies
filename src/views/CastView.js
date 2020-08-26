@@ -1,6 +1,8 @@
 import React, { Component, lazy, Suspense } from 'react';
 
 import { request } from '../components/services';
+import Loader from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const AsyncCast = lazy(() =>
   import('../components/cast/Cast' /* webpackChunkName:"cast" */),
@@ -21,7 +23,11 @@ export default class CastView extends Component {
     const { movieCast } = this.state;
     return (
       <>
-        <Suspense fallback={<h1>Loading... Cast</h1>}>
+        <Suspense
+          fallback={
+            <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+          }
+        >
           <AsyncCast movieCast={movieCast} />
         </Suspense>
       </>

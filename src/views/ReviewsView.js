@@ -1,5 +1,7 @@
 import React, { Component, lazy, Suspense } from 'react';
 import { responseReviews } from '../components/services';
+import Loader from 'react-loader-spinner';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 
 const AsyncReviews = lazy(() =>
   import('../components/reviews/Reviews' /* webpackChunkName: "reviews"*/),
@@ -19,7 +21,11 @@ export default class ReviewsView extends Component {
     const { reviews } = this.state;
     return (
       <>
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense
+          fallback={
+            <Loader type="ThreeDots" color="#00BFFF" height={80} width={80} />
+          }
+        >
           <AsyncReviews reviews={reviews} />
         </Suspense>
       </>

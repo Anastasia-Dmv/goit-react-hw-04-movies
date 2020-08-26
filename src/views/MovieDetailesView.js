@@ -11,19 +11,27 @@ export default class MovieDetailesView extends Component {
   state = {
     id: this.props.match.params.movieId.slice(1),
     movie: [],
+    // from: '',
   };
 
   async componentDidMount() {
     const response = await responseMovieDetails(this.state.id);
 
-    this.setState({ movie: { ...response.data } });
+    this.setState({
+      movie: {
+        ...response.data,
+      },
+    });
   }
 
   changeLocation = () => {
     if (this.props.location.state && this.props.location.state.from) {
       return this.props.history.push(this.props.location.state.from);
     }
-    this.props.history.push(routes.movies);
+    this.props.history.push({
+      pathname: routes.movies,
+      state: this.props.location.state.from,
+    });
   };
   render() {
     const { movie, id } = this.state;
@@ -40,7 +48,7 @@ export default class MovieDetailesView extends Component {
               <NavLink
                 to={{
                   pathname: `${this.props.match.url}${routes.cast}`,
-                  state: { from: location },
+                  state: location.state,
                   params: id,
                 }}
               >
@@ -51,7 +59,7 @@ export default class MovieDetailesView extends Component {
               <NavLink
                 to={{
                   pathname: `${this.props.match.url}${routes.reviews}`,
-                  state: { from: location },
+                  state: location.state,
                   params: id,
                 }}
               >
